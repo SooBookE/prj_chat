@@ -1,56 +1,51 @@
 <template>
   <div class="login">
-    <h2>Sign In</h2>
+    <h2>채팅 프로그램</h2>
     <div class="input">
-      <input class="underline" type="text" name="id" id="id" placeholder="id" />
-      <br />
       <input
+        v-model="userName"
+        class="underline"
+        type="text"
+        name="userName"
+        id="userName"
+        placeholder="닉네임을 입력해주세요"
+      />
+      <br />
+      <!-- <input
         class="underline"
         type="password"
         icon="lock"
         placeholder="Password"
-      />
+      /> -->
     </div>
-    <button class="signin" @click="signIn">로그인</button><br />
-    <button class="noline" @click="anonymity">익명으로 대화하기</button>
+    <button class="signin" @click="start">시작하기</button><br />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SignInPage',
-  middleware: 'auth',
-  auth: 'guest',
+  name: 'StartPage',
+  // middleware: 'auth',
+  // auth: 'guest',
   data() {
     return {
-      id: '',
-      password: ''
+      userName: ''
     }
   },
   methods: {
-    async signIn() {
-      try {
-        await this.$auth.loginWith('local', {
-          data: {
-            email: this.email,
-            password: this.password
-          }
-        })
-        this.$axios.setToken(this.$auth.strategy.token.get())
-      } catch (err) {
-        this.notifySignInFail()
-      }
-    },
-    notifySignInFail() {
-      this.$buefy.notification.open({
-        message: '로그인 실패',
-        type: 'is-danger'
+    start() {
+      this.$router.push({
+        name: 'chat',
+        chat: { name: 'userName' }
       })
     }
   }
 }
 </script>
 <style>
+h2 {
+  margin-bottom: 50px;
+}
 input {
   width: 200px;
   height: 25px;
